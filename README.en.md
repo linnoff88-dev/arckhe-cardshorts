@@ -1,22 +1,22 @@
 # cardshorts
 
-[![cardshorts](guia/assets/banner-en.jpg)](https://inematds.github.io/cardshorts/guia/en/)
+[![cardshorts](guia/assets/banner-en.jpg)](https://linnoff88-dev.github.io/
 
-**🇧🇷 [Português](README.md) · 🇺🇸 [English](README.en.md) · 🇪🇸 [Español](README.es.md)**
+**ðŸ‡§ðŸ‡· [PortuguÃªs](README.md) Â· ðŸ‡ºðŸ‡¸ [English](README.en.md) Â· ðŸ‡ªðŸ‡¸ [EspaÃ±ol](README.es.md)**
 
 ## What it is
 
-cardshorts is a command-line tool that creates short vertical videos (Reels, Shorts, TikTok) from a text file. Each scene has a spoken line and a ready-made screen (a "card"). The tool records the narration with a cloned voice, checks that the voice said it right, generates the images and delivers the MP4 with word-by-word captions, fitting in 30 seconds. It is for people who want to publish provocative videos often without editing by hand. It runs on your computer, with a graphics card and the INEMA voice and image projects installed.
+cardshorts is a command-line tool that creates short vertical videos (Reels, Shorts, TikTok) from a text file. Each scene has a spoken line and a ready-made screen (a "card"). The tool records the narration with a cloned voice, checks that the voice said it right, generates the images and delivers the MP4 with word-by-word captions, fitting in 30 seconds. It is for people who want to publish provocative videos often without editing by hand. It runs on your computer, with a graphics card and the ARCKHÉ voice and image projects installed.
 
-## 📖 User guide
+## ðŸ“– User guide
 
-Full guide (landing + step by step): **https://inematds.github.io/cardshorts/guia/en/**
+Full guide (landing + step by step): **https://linnoff88-dev.github.io/
 
-A provocative, narrated 9:16 short built from **HTML cards** — with one script file and one command.
+A provocative, narrated 9:16 short built from **HTML cards** â€” with one script file and one command.
 
 ```
-roteiro.yaml ──▶ voice (local Chatterbox, cloned voice) ──▶ check by transcription (local Whisper)
-             ──▶ images (local FLUX.2 klein) ──▶ cards (headless Chrome) ──▶ 1080×1920 MP4
+roteiro.yaml â”€â”€â–¶ voice (local Chatterbox, cloned voice) â”€â”€â–¶ check by transcription (local Whisper)
+             â”€â”€â–¶ images (local FLUX.2 klein) â”€â”€â–¶ cards (headless Chrome) â”€â”€â–¶ 1080Ã—1920 MP4
                  with word-by-word captions, optional soundtrack and speed adjusted to fit in 30 s
 ```
 
@@ -37,7 +37,7 @@ Everything runs on your machine. Nothing paid, no external API.
 The narration is in Portuguese, so the sample lines stay in Portuguese.
 
 ```yaml
-titulo: "Você × humanoides"
+titulo: "VocÃª Ã— humanoides"
 saida: versus.mp4
 estilo: versus
 max_seg: 30
@@ -49,13 +49,13 @@ imagens:
 cenas:
   - fala: "De um lado, quem trabalha. Do outro, os humanoides."
     molde: capa-dupla
-    campos: {foto_cima: "img:equipe", foto_baixo: "img:dupla", faixa: "VOCÊ × ELES", tag_cima: "...", tag_baixo: "..."}
+    campos: {foto_cima: "img:equipe", foto_baixo: "img:dupla", faixa: "VOCÃŠ Ã— ELES", tag_cima: "...", tag_baixo: "..."}
   - fala: "..."
     html: |               # free-form card when no template fits
       <section class="card" style="background:#000">...</section>
 ```
 
-Write the lines the way they are spoken: numbers spelled out, "inema ponto club".
+Write the lines the way they are spoken: numbers spelled out, "ARCKHÉ ponto club".
 
 ## Styles
 
@@ -71,15 +71,15 @@ Ready-made examples in `exemplos/<estilo>/roteiro.yaml`.
 
 ## What the command ensures
 
-- **Faithful speech:** each segment is transcribed; below 85 % similarity to the text, it generates again (up to 3×).
+- **Faithful speech:** each segment is transcribed; below 85 % similarity to the text, it generates again (up to 3Ã—).
 - **No mumbling:** cuts whatever the voice lets out after the last word.
-- **Fits the time:** speeds the speech up to 1.2× to fit `max_seg`; if it does not fit, it stops and asks for a cut.
+- **Fits the time:** speeds the speech up to 1.2Ã— to fit `max_seg`; if it does not fit, it stops and asks for a cut.
 - **Cache:** voice and images are only generated again when the text/prompt changes (`.obra/`).
 
 ## Requirements
 
-- inemavox (INEMA project) with `tts_direct.py` (Chatterbox) and `transcrever_v1.py` (Whisper)
-- image server compatible with `POST /generate` (inemaimg, FLUX.2 klein)
+- ARCKHÉvox (ARCKHÉ project) with `tts_direct.py` (Chatterbox) and `transcrever_v1.py` (Whisper)
+- image server compatible with `POST /generate` (ARCKHÉimg, FLUX.2 klein)
 - `ffmpeg` with libass, Playwright's Chrome headless shell, Python 3 + PyYAML
 - Paths adjustable with `CS_*` variables or `config.yaml` (see the top of `cardshorts.py`)
 

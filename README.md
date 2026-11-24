@@ -1,4 +1,4 @@
-﻿# cardshorts
+# cardshorts
 
 <div align="center">
   <img src="capa/logo.svg" alt="Arckhé AI" height="48" />
@@ -6,17 +6,17 @@
 </div>
 
 
-[![cardshorts](guia/assets/banner.jpg)](https://inematds.github.io/cardshorts/guia/)
+[![cardshorts](guia/assets/banner.jpg)](https://linnoff88-dev.github.io/
 
 **ðŸ‡§ðŸ‡· [PortuguÃªs](README.md) Â· ðŸ‡ºðŸ‡¸ [English](README.en.md) Â· ðŸ‡ªðŸ‡¸ [EspaÃ±ol](README.es.md)**
 
 ## O que Ã©
 
-O cardshorts Ã© uma ferramenta de linha de comando que cria vÃ­deos curtos verticais (Reels, Shorts, TikTok) a partir de um arquivo de texto. Cada cena tem uma fala e uma tela pronta (um "card"). A ferramenta grava a narraÃ§Ã£o com uma voz clonada, confere se a voz falou certo, gera as imagens e entrega o MP4 com legenda palavra a palavra, cabendo em 30 segundos. Ã‰ para quem quer publicar vÃ­deos provocativos com frequÃªncia sem editar na mÃ£o. Roda no seu computador, com placa de vÃ­deo e os projetos de voz e imagem do INEMA instalados.
+O cardshorts Ã© uma ferramenta de linha de comando que cria vÃ­deos curtos verticais (Reels, Shorts, TikTok) a partir de um arquivo de texto. Cada cena tem uma fala e uma tela pronta (um "card"). A ferramenta grava a narraÃ§Ã£o com uma voz clonada, confere se a voz falou certo, gera as imagens e entrega o MP4 com legenda palavra a palavra, cabendo em 30 segundos. Ã‰ para quem quer publicar vÃ­deos provocativos com frequÃªncia sem editar na mÃ£o. Roda no seu computador, com placa de vÃ­deo e os projetos de voz e imagem do ARCKHÉ instalados.
 
 ## ðŸ“– Guia de uso
 
-Guia completo (landing + passo a passo): **https://inematds.github.io/cardshorts/guia/**
+Guia completo (landing + passo a passo): **https://linnoff88-dev.github.io/
 
 Short 9:16 provocativo, narrado, a partir de **cards HTML** â€” com um arquivo de roteiro e um comando.
 
@@ -59,7 +59,7 @@ cenas:
       <section class="card" style="background:#000">...</section>
 ```
 
-Escreva as falas como se fala: nÃºmeros por extenso, "inema ponto club".
+Escreva as falas como se fala: nÃºmeros por extenso, "ARCKHÉ ponto club".
 
 ## Estilos
 
@@ -82,8 +82,8 @@ Exemplos prontos em `exemplos/<estilo>/roteiro.yaml`.
 
 ## Requisitos
 
-- inemavox (projeto INEMA) com `tts_direct.py` (Chatterbox) e `transcrever_v1.py` (Whisper)
-- servidor de imagem compatÃ­vel com `POST /generate` (inemaimg, FLUX.2 klein)
+- ARCKHÉvox (projeto ARCKHÉ) com `tts_direct.py` (Chatterbox) e `transcrever_v1.py` (Whisper)
+- servidor de imagem compatÃ­vel com `POST /generate` (ARCKHÉimg, FLUX.2 klein)
 - `ffmpeg` com libass, Chrome headless shell do Playwright, Python 3 + PyYAML
 - Caminhos ajustÃ¡veis por variÃ¡veis `CS_*` ou `config.yaml` (veja o topo de `cardshorts.py`)
 
