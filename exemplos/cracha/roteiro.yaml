@@ -1,4 +1,4 @@
-# Exemplo do estilo cracha (alvo, crachÃ¡s carimbados, cÃ©dula).
+# Exemplo do estilo cracha (alvo, crachás carimbados, cédula).
 titulo: "Na mira"
 saida: cracha.mp4
 estilo: cracha
@@ -12,14 +12,14 @@ cenas:
   - fala: "Trabalhador. Gerente. Os dois na mira dos humanoides."
     molde: capa-mira
     campos: {foto_cima: "img:equipe", foto_baixo: "img:fila", enquadre: "10% 30%", mira_x: 364, mira_y: 977,
-             titulo: 'QUEM ESTÃ <span class="rd">NA MIRA?</span>', tag_cima: "TRABALHADORES", tag_baixo: "HUMANOIDES Â· ILUSTRATIVO"}
-  - fala: "A mÃ¡quina jÃ¡ escreve o relatÃ³rio. O robÃ´ jÃ¡ carrega a caixa."
+             titulo: 'QUEM ESTÁ <span class="rd">NA MIRA?</span>', tag_cima: "TRABALHADORES", tag_baixo: "HUMANOIDES · ILUSTRATIVO"}
+  - fala: "A máquina já escreve o relatório. O robô já carrega a caixa."
     molde: dois-crachas
-    campos: {foto1: "img:saida", nome1: "TRABALHADOR", foto2: "img:gerente", nome2: "GERENTE", carimbo: "SUBSTITUÃDO",
-             titulo: 'E QUEM PERDER O SERVIÃ‡O, <span class="rd">FAZ O QUÃŠ?</span>'}
-  - fala: "AlguÃ©m jÃ¡ te mostrou um plano pra isso?"
+    campos: {foto1: "img:saida", nome1: "TRABALHADOR", foto2: "img:gerente", nome2: "GERENTE", carimbo: "SUBSTITUÍDO",
+             titulo: 'E QUEM PERDER O SERVI�?O, <span class="rd">FAZ O QU�S?</span>'}
+  - fala: "Alguém já te mostrou um plano pra isso?"
     molde: cedula
-    campos: {titulo: 'CADÃŠ O <span class="rd">PLANO?</span>', pergunta: "PLANO PARA QUEM PERDER O EMPREGO PARA A IA E OS ROBÃ”S:", rodape: 'ALGUÃ‰M TE <span class="rd">MOSTROU?</span>'}
-  - fala: "VocÃª jÃ¡ estÃ¡ qualificado? No ARCKHÉ ponto club Ã© grÃ¡tis."
+    campos: {titulo: 'CAD�S O <span class="rd">PLANO?</span>', pergunta: "PLANO PARA QUEM PERDER O EMPREGO PARA A IA E OS ROB�"S:", rodape: 'ALGU�?M TE <span class="rd">MOSTROU?</span>'}
+  - fala: "Você já está qualificado? No ARCKH� ponto club é grátis."
     molde: cracha-destaque
-    campos: {cor: "#ff3b2f", destaque: "VOCÃŠ", nome: "QUALIFICADO", linha: "ARCKHÉ AI Â· GRÃTIS", titulo: 'APRENDA <span class="y">AGORA.</span>'}
+    campos: {cor: "#ff3b2f", destaque: "VOC�S", nome: "QUALIFICADO", linha: "ARCKH� AI · GRÁTIS", titulo: 'APRENDA <span class="y">AGORA.</span>'}

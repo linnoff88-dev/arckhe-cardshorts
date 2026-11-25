@@ -2,7 +2,7 @@
 
 [![cardshorts](guia/assets/banner-en.jpg)](https://linnoff88-dev.github.io/
 
-**ðŸ‡§ðŸ‡· [PortuguÃªs](README.md) Â· ðŸ‡ºðŸ‡¸ [English](README.en.md) Â· ðŸ‡ªðŸ‡¸ [EspaÃ±ol](README.es.md)**
+**ðŸ‡§ðŸ‡· [Português](README.md) Â· ðŸ‡ºðŸ‡¸ [English](README.en.md) Â· ðŸ‡ªðŸ‡¸ [Espaê±ol](README.es.md)**
 
 ## What it is
 
@@ -16,7 +16,7 @@ A provocative, narrated 9:16 short built from **HTML cards** â€” with one s
 
 ```
 roteiro.yaml â”€â”€â–¶ voice (local Chatterbox, cloned voice) â”€â”€â–¶ check by transcription (local Whisper)
-             â”€â”€â–¶ images (local FLUX.2 klein) â”€â”€â–¶ cards (headless Chrome) â”€â”€â–¶ 1080Ã—1920 MP4
+             â”€â”€â–¶ images (local FLUX.2 klein) â”€â”€â–¶ cards (headless Chrome) â”€â”€â–¶ 1080ê—1920 MP4
                  with word-by-word captions, optional soundtrack and speed adjusted to fit in 30 s
 ```
 
@@ -37,7 +37,7 @@ Everything runs on your machine. Nothing paid, no external API.
 The narration is in Portuguese, so the sample lines stay in Portuguese.
 
 ```yaml
-titulo: "VocÃª Ã— humanoides"
+titulo: "Você ê— humanoides"
 saida: versus.mp4
 estilo: versus
 max_seg: 30
@@ -49,7 +49,7 @@ imagens:
 cenas:
   - fala: "De um lado, quem trabalha. Do outro, os humanoides."
     molde: capa-dupla
-    campos: {foto_cima: "img:equipe", foto_baixo: "img:dupla", faixa: "VOCÃŠ Ã— ELES", tag_cima: "...", tag_baixo: "..."}
+    campos: {foto_cima: "img:equipe", foto_baixo: "img:dupla", faixa: "VOCêŠ ê— ELES", tag_cima: "...", tag_baixo: "..."}
   - fala: "..."
     html: |               # free-form card when no template fits
       <section class="card" style="background:#000">...</section>
@@ -71,9 +71,9 @@ Ready-made examples in `exemplos/<estilo>/roteiro.yaml`.
 
 ## What the command ensures
 
-- **Faithful speech:** each segment is transcribed; below 85 % similarity to the text, it generates again (up to 3Ã—).
+- **Faithful speech:** each segment is transcribed; below 85 % similarity to the text, it generates again (up to 3ê—).
 - **No mumbling:** cuts whatever the voice lets out after the last word.
-- **Fits the time:** speeds the speech up to 1.2Ã— to fit `max_seg`; if it does not fit, it stops and asks for a cut.
+- **Fits the time:** speeds the speech up to 1.2ê— to fit `max_seg`; if it does not fit, it stops and asks for a cut.
 - **Cache:** voice and images are only generated again when the text/prompt changes (`.obra/`).
 
 ## Requirements

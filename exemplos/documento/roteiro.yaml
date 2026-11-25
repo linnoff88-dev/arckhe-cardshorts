@@ -1,4 +1,4 @@
-# Exemplo do estilo documento (formulÃ¡rio em branco, aviso, formulÃ¡rio preenchido, certificado).
+# Exemplo do estilo documento (formulário em branco, aviso, formulário preenchido, certificado).
 titulo: "Plano em branco"
 saida: documento.mp4
 estilo: documento
@@ -9,18 +9,18 @@ imagens:
   fabrica: "modern faceless humanoid robot with black visor head moving a plastic tote box on a factory assembly line, no human workers"
   gerente: "middle aged office manager seen from behind packing his desk into a cardboard box, modern faceless humanoid robot with black visor taking his chair"
 cenas:
-  - fala: "Pergunta direta: qual Ã© o seu plano?"
+  - fala: "Pergunta direta: qual é o seu plano?"
     molde: capa-pergunta
-    campos: {foto_cima: "img:equipe", foto_baixo: "img:escrit", rotulo: "PERGUNTA PARA VOCÃŠ:", pergunta: "QUAL Ã‰ O PLANO?", tag_cima: "EQUIPE", tag_baixo: "HUMANOIDE Â· ILUSTRATIVO"}
-  - fala: "O humanoide entra na fÃ¡brica. A inteligÃªncia artificial entra no escritÃ³rio."
+    campos: {foto_cima: "img:equipe", foto_baixo: "img:escrit", rotulo: "PERGUNTA PARA VOC�S:", pergunta: "QUAL �? O PLANO?", tag_cima: "EQUIPE", tag_baixo: "HUMANOIDE · ILUSTRATIVO"}
+  - fala: "O humanoide entra na fábrica. A inteligência artificial entra no escritório."
     molde: formulario
-    campos: {fundo: "img:fabrica", titulo: "PLANO DE TRANSIÃ‡ÃƒO", subtitulo: "IA E HUMANOIDES NO TRABALHO", item1: "1. Trabalhador da fÃ¡brica:", item2: "2. Gerente do escritÃ³rio:", item3: "3. Quem vai qualificar:", carimbo: "EM BRANCO"}
-  - fala: "Se vocÃª esperar, pode ficar sem lugar."
+    campos: {fundo: "img:fabrica", titulo: "PLANO DE TRANSI�?�fO", subtitulo: "IA E HUMANOIDES NO TRABALHO", item1: "1. Trabalhador da fábrica:", item2: "2. Gerente do escritório:", item3: "3. Quem vai qualificar:", carimbo: "EM BRANCO"}
+  - fala: "Se você esperar, pode ficar sem lugar."
     molde: aviso
     campos: {fundo: "img:gerente", aviso: "LUGAR RESERVADO", detalhe: 'para: <b style="color:#c8322a">HUMANOIDE</b>', titulo: 'ESPERAR <span class="rd">PODE CUSTAR SEU LUGAR.</span>'}
-  - fala: "Preencha o seu: ARCKHÉ ponto club, grÃ¡tis."
+  - fala: "Preencha o seu: ARCKH� ponto club, grátis."
     molde: formulario-preenchido
-    campos: {titulo: "PLANO DE TRANSIÃ‡ÃƒO", subtitulo: "VERSÃƒO ARCKHÉ", item1: "1. Trabalhador:", resp1: "aprender IA no ARCKHÉ AI", item2: "2. Gerente:", resp2: "gestÃ£o de agentes, grÃ¡tis", item3: "3. Custo:", resp3: "R$ 0,00", carimbo: "PREENCHIDO"}
-  - fala: "Garanta o seu espaÃ§o."
+    campos: {titulo: "PLANO DE TRANSI�?�fO", subtitulo: "VERS�fO ARCKH�", item1: "1. Trabalhador:", resp1: "aprender IA no ARCKH� AI", item2: "2. Gerente:", resp2: "gestêo de agentes, grátis", item3: "3. Custo:", resp3: "R$ 0,00", carimbo: "PREENCHIDO"}
+  - fala: "Garanta o seu espaço."
     molde: certificado
-    campos: {nome: "vocÃª", texto: "pela qualificaÃ§Ã£o em<br><b>inteligÃªncia artificial</b>", ano: "2027", marca: "ARCKHÉ AI Â· GRÃTIS", titulo: 'GARANTA SEU <span class="y">ESPAÃ‡O.</span>'}
+    campos: {nome: "você", texto: "pela qualificaçêo em<br><b>inteligência artificial</b>", ano: "2027", marca: "ARCKH� AI · GRÁTIS", titulo: 'GARANTA SEU <span class="y">ESPA�?O.</span>'}

@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""cardshorts â€” short 9:16 narrado a partir de cards HTML.
+"""cardshorts ê¢â¬â short 9:16 narrado a partir de cards HTML.
 
 Um roteiro (roteiro.yaml) lista as cenas: cada cena tem uma fala e um card (molde de um estilo
 ou HTML livre). O comando gera a voz (Chatterbox local, com a voz clonada), confere a fala por
-transcriÃ§Ã£o, gera as imagens (FLUX.2 klein local), fotografa os cards e monta o MP4 com legenda
-palavra a palavra e trilha opcional, ajustando a velocidade para caber no tempo mÃ¡ximo.
+transcriêÂ§êÂ£o, gera as imagens (FLUX.2 klein local), fotografa os cards e monta o MP4 com legenda
+palavra a palavra e trilha opcional, ajustando a velocidade para caber no tempo mêÂ¡ximo.
 
 Uso:
   cardshorts.py novo <pasta> [--estilo versus]   cria uma pasta com roteiro de exemplo
   cardshorts.py estilos                            lista estilos e moldes
-  cardshorts.py voz <roteiro.yaml>                 sÃ³ a narraÃ§Ã£o (com cache)
-  cardshorts.py imagens <roteiro.yaml>             sÃ³ as imagens (com cache)
-  cardshorts.py cards <roteiro.yaml>               sÃ³ os cards + previa.png
-  cardshorts.py montar <roteiro.yaml>              tudo: voz, imagens, cards e vÃ­deo
-  cardshorts.py enviar <roteiro.yaml> [texto]      manda o vÃ­deo pelo Telegram (config telegram_env)
+  cardshorts.py voz <roteiro.yaml>                 sêÂ³ a narraêÂ§êÂ£o (com cache)
+  cardshorts.py imagens <roteiro.yaml>             sêÂ³ as imagens (com cache)
+  cardshorts.py cards <roteiro.yaml>               sêÂ³ os cards + previa.png
+  cardshorts.py montar <roteiro.yaml>              tudo: voz, imagens, cards e vêÂ­deo
+  cardshorts.py enviar <roteiro.yaml> [texto]      manda o vêÂ­deo pelo Telegram (config telegram_env)
   cardshorts.py musica <saida.wav> [prompt]        gera uma trilha local (MusicGen-small)
 """
 import argparse, base64, difflib, hashlib, html, json, os, re, shutil, subprocess, sys, time, unicodedata, urllib.request
@@ -23,9 +23,9 @@ RAIZ = Path(__file__).resolve().parent
 ESTILOS = RAIZ / "estilos"
 HOME = Path.home()
 
-# Caminhos locais. Cada um pode ser trocado por variÃ¡vel de ambiente ou por config.yaml na raiz.
+# Caminhos locais. Cada um pode ser trocado por variêÂ¡vel de ambiente ou por config.yaml na raiz.
 CFG = {
-    "ARCKHÉvox": os.environ.get("CS_ARCKHÉVOX", str(HOME / "projetos/ARCKHÉvox")),
+    "ARCKHêvox": os.environ.get("CS_ARCKHêVOX", str(HOME / "projetos/ARCKHêvox")),
     "vozes": os.environ.get("CS_VOZES", str(HOME / "projetos/timesmkt3/media/voice-refs")),
     "imagem_api": os.environ.get("CS_IMAGEM_API", "http://localhost:8000/generate"),
     "imagem_modelo": os.environ.get("CS_IMAGEM_MODELO", "flux2-klein"),
@@ -38,7 +38,7 @@ if (RAIZ / "config.yaml").exists():
     import yaml
     CFG.update({k: str(v) for k, v in (yaml.safe_load((RAIZ / "config.yaml").read_text()) or {}).items()})
 
-# Voz: 0.6/0.6 Ã© o ponto testado. Exagero 0.85 com cfg 0.35 deixava o "s" chiado (sotaque carioca).
+# Voz: 0.6/0.6 êÂ© o ponto testado. Exagero 0.85 com cfg 0.35 deixava o "s" chiado (sotaque carioca).
 VOZ_PADRAO = {"ref": "nei", "exaggeration": 0.6, "cfg_weight": 0.6, "temperature": 0.75}
 FPS, PAD = 30, 0.25
 TEMPO_MIN, TEMPO_MAX = 1.0, 1.2
@@ -59,14 +59,14 @@ def dur(p):
 _UN = "zero um dois tres quatro cinco seis sete oito nove dez onze doze treze quatorze quinze dezesseis dezessete dezoito dezenove".split()
 _DZ = "_ _ vinte trinta quarenta cinquenta sessenta setenta oitenta noventa".split()
 _CT = "_ cento duzentos trezentos quatrocentos quinhentos seiscentos setecentos oitocentos novecentos".split()
-# feminino e variantes que o texto escrito usa e o Whisper nÃ£o (ou vice-versa)
+# feminino e variantes que o texto escrito usa e o Whisper nêÂ£o (ou vice-versa)
 _EQUIV = {"duzentas": "duzentos", "trezentas": "trezentos", "quatrocentas": "quatrocentos", "quinhentas": "quinhentos",
           "seiscentas": "seiscentos", "setecentas": "setecentos", "oitocentas": "oitocentos", "novecentas": "novecentos",
           "uma": "um", "duas": "dois", "catorze": "quatorze", "pra": "para"}
 
 
 def extenso(n):
-    """Inteiro por extenso em portuguÃªs (atÃ© bilhÃµes), sÃ³ para comparar fala com transcriÃ§Ã£o."""
+    """Inteiro por extenso em portuguêÂªs (atêÂ© bilhêÂµes), sêÂ³ para comparar fala com transcriêÂ§êÂ£o."""
     if n < 20:
         return _UN[n]
     if n < 100:
@@ -85,7 +85,7 @@ def extenso(n):
 def _numeros(s):
     def troca(m):
         txt = m.group(0)
-        if "," in txt:  # 1,5 â†’ um virgula cinco
+        if "," in txt:  # 1,5 ê¢â â um virgula cinco
             a, b = txt.split(",", 1)
             return f" {extenso(int(a.replace('.', '')))} virgula {extenso(int(b))} "
         return f" {extenso(int(txt.replace('.', '')))} "
@@ -133,7 +133,7 @@ WHISPER_PORTA = int(os.environ.get("CS_WHISPER_PORTA", "7871"))
 
 
 def _whisper_residente(w16, palavras):
-    """Whisper que carrega o modelo UMA vez (ARCKHÉvox/whisper_daemon.py, 15/10/2026): sobe o daemon se nÃ£o
+    """Whisper que carrega o modelo UMA vez (ARCKHêvox/whisper_daemon.py, 15/10/2026): sobe o daemon se nêÂ£o
     estiver no ar e transcreve por ele. Devolve os segmentos, ou None para cair no caminho antigo."""
     if os.environ.get("CS_WHISPER_RESIDENTE", "1") == "0":
         return None
@@ -148,14 +148,14 @@ def _whisper_residente(w16, palavras):
     try:
         if not no_ar():
             import fcntl
-            with open(HOME / ".cache/whisper_daemon.lock", "w") as lk:  # sÃ³ um processo sobe o daemon
+            with open(HOME / ".cache/whisper_daemon.lock", "w") as lk:  # sêÂ³ um processo sobe o daemon
                 fcntl.flock(lk, fcntl.LOCK_EX)
                 if not no_ar():
                     subprocess.Popen([os.environ.get("CS_WHISPER_PY", str(HOME / "miniconda3/envs/chatterbox/bin/python3")),
-                                      "whisper_daemon.py", "--porta", str(WHISPER_PORTA)], cwd=CFG["ARCKHÉvox"],
+                                      "whisper_daemon.py", "--porta", str(WHISPER_PORTA)], cwd=CFG["ARCKHêvox"],
                                      stdout=open(HOME / ".cache/whisper_daemon.log", "a"), stderr=subprocess.STDOUT,
                                      start_new_session=True)
-                    for _ in range(90):  # atÃ© 3 min para carregar o large-v3
+                    for _ in range(90):  # atêÂ© 3 min para carregar o large-v3
                         time.sleep(2)
                         if no_ar():
                             break
@@ -164,12 +164,12 @@ def _whisper_residente(w16, palavras):
                                                       "words": palavras}).encode())
         return json.loads(urllib.request.urlopen(req, timeout=1800).read())["segments"]
     except Exception as e:
-        log(f"whisper residente indisponÃ­vel ({e}); usando o caminho antigo")
+        log(f"whisper residente indisponêÂ­vel ({e}); usando o caminho antigo")
         return None
 
 
 def transcrever(wav, pasta, palavras=False):
-    """TranscriÃ§Ã£o local (Whisper large-v3 pelo ARCKHÉvox). Devolve a lista de palavras ou segmentos."""
+    """TranscriêÂ§êÂ£o local (Whisper large-v3 pelo ARCKHêvox). Devolve a lista de palavras ou segmentos."""
     pasta.mkdir(parents=True, exist_ok=True)
     w16 = pasta / "a16.wav"
     sh("ffmpeg", "-y", "-loglevel", "error", "-i", wav, "-ar", "16000", "-ac", "1", w16)
@@ -180,15 +180,15 @@ def transcrever(wav, pasta, palavras=False):
            "--src", os.environ.get("CS_LANG", "pt")]  # CS_LANG=es: reel traduzido (REA ES, 13/10/2026)
     if palavras:
         cmd.append("--words")
-    sh(*cmd, cwd=CFG["ARCKHÉvox"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    sh(*cmd, cwd=CFG["ARCKHêvox"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     segs = json.loads((pasta / "t/transcript.json").read_text())
     segs = segs.get("segments", segs) if isinstance(segs, dict) else segs
     return [w for s in segs for w in s.get("words", [])] if palavras else segs
 
 
 def conferir_e_cortar(wav, texto, pasta):
-    """Confere a fala pela transcriÃ§Ã£o e corta o balbucio que o Chatterbox Ã s vezes solta no fim.
-    Devolve (semelhanÃ§a 0â€“1, texto ouvido)."""
+    """Confere a fala pela transcriêÂ§êÂ£o e corta o balbucio que o Chatterbox êÂ s vezes solta no fim.
+    Devolve (semelhanêÂ§a 0ê¢â¬â1, texto ouvido)."""
     palavras = transcrever(wav, pasta, palavras=True)
     ouvido = " ".join(w["word"].strip() for w in palavras)
     esperado = norm(texto)
@@ -210,7 +210,7 @@ def gerar_voz(r):
     v = r["voz"]
     ref = Path(v["ref"]) if "/" in v["ref"] else Path(CFG["vozes"]) / f"{v['ref']}.wav"
     if not ref.exists():
-        sys.exit(f"voz de referÃªncia nÃ£o encontrada: {ref}")
+        sys.exit(f"voz de referêÂªncia nêÂ£o encontrada: {ref}")
     pasta = r["_obra"] / "voz"
     pasta.mkdir(exist_ok=True)
     for i, c in enumerate(r["cenas"], 1):
@@ -228,10 +228,10 @@ def gerar_voz(r):
                 subprocess.run(["timeout", "900", "python3", "tts_direct.py", "--text", c["fala"], "--lang", "pt",
                                 "--engine", "chatterbox", "--ref", str(ref), "--outdir", str(tmp),
                                 "--exaggeration", str(v["exaggeration"]), "--cfg-weight", str(v["cfg_weight"]),
-                                "--temperature", str(v["temperature"])], cwd=CFG["ARCKHÉvox"], stdout=lg, stderr=lg)
+                                "--temperature", str(v["temperature"])], cwd=CFG["ARCKHêvox"], stdout=lg, stderr=lg)
             g = tmp / "generated.wav"
             if not g.exists():
-                log("  falhou a geraÃ§Ã£o; veja", tmp / "log.txt")
+                log("  falhou a geraêÂ§êÂ£o; veja", tmp / "log.txt")
                 continue
             cand = pasta / f"{chave}.cand.wav"
             shutil.move(g, cand)
@@ -242,7 +242,7 @@ def gerar_voz(r):
                 shutil.rmtree(tmp, ignore_errors=True)
                 break
         else:
-            sys.exit(f"cena {i}: a voz nÃ£o saiu fiel ao texto em 3 tentativas. Reescreva a fala (nÃºmeros por extenso, siglas soletradas).")
+            sys.exit(f"cena {i}: a voz nêÂ£o saiu fiel ao texto em 3 tentativas. Reescreva a fala (nêÂºmeros por extenso, siglas soletradas).")
 
 
 # ---------------------------------------------------------------- imagens
@@ -280,7 +280,7 @@ def moldes(estilo):
 
 
 def valor(v, r):
-    """Resolve o valor de um campo: img:nome â†’ imagem gerada; caminho de arquivo â†’ file://; texto â†’ como estÃ¡."""
+    """Resolve o valor de um campo: img:nome ê¢â â imagem gerada; caminho de arquivo ê¢â â file://; texto ê¢â â como estêÂ¡."""
     if not isinstance(v, str):
         return str(v)
     if v.startswith("img:"):
@@ -288,7 +288,7 @@ def valor(v, r):
     if re.search(r"\.(png|jpe?g|webp|gif|svg)$", v, re.I):
         p = (r["_dir"] / v).resolve()
         if not p.exists():
-            sys.exit(f"imagem nÃ£o encontrada: {p}")
+            sys.exit(f"imagem nêÂ£o encontrada: {p}")
         return p.as_uri()
     return v
 
@@ -298,7 +298,7 @@ def chrome():
         return CFG["chrome"]
     cands = sorted((HOME / ".cache/ms-playwright").glob("chromium_headless_shell-*/*/chrome-headless-shell"))
     if not cands:
-        sys.exit("chrome-headless-shell nÃ£o encontrado (npx playwright install chromium-headless-shell, ou CS_CHROME)")
+        sys.exit("chrome-headless-shell nêÂ£o encontrado (npx playwright install chromium-headless-shell, ou CS_CHROME)")
     return str(cands[-1])
 
 
@@ -322,7 +322,7 @@ def gerar_cards(r):
         else:
             ms = moldes(estilo)
             if c["molde"] not in ms:
-                sys.exit(f"cena {i}: molde '{c['molde']}' nÃ£o existe no estilo {estilo}. HÃ¡: {', '.join(ms)}")
+                sys.exit(f"cena {i}: molde '{c['molde']}' nêÂ£o existe no estilo {estilo}. HêÂ¡: {', '.join(ms)}")
             corpo = ms[c["molde"]]
             campos = {k: valor(v, r) for k, v in (c.get("campos") or {}).items()}
             faltam = sorted(set(re.findall(r"\{\{(\w+)\}\}", corpo)) - set(campos))
@@ -336,7 +336,7 @@ def gerar_cards(r):
         subprocess.run([chrome(), "--no-sandbox", "--hide-scrollbars", "--window-size=1080,1920", "--virtual-time-budget=10000",
                         f"--screenshot={png}", htm.as_uri()], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=120)
         if not png.exists():
-            sys.exit(f"cena {i}: o card nÃ£o renderizou ({htm})")
+            sys.exit(f"cena {i}: o card nêÂ£o renderizou ({htm})")
         c["_card"] = png
     pngs = [c["_card"] for c in r["cenas"] if c["_card"].suffix == ".png"]
     if pngs:
@@ -345,7 +345,7 @@ def gerar_cards(r):
         if len(pngs) == 1:
             fc = "[0]scale=270:480"
         sh("ffmpeg", "-y", "-loglevel", "error", *ent, "-filter_complex", fc, r["_dir"] / "previa.png")
-        log("prÃ©via:", r["_dir"] / "previa.png")
+        log("prêÂ©via:", r["_dir"] / "previa.png")
 
 
 # ---------------------------------------------------------------- montagem
@@ -354,7 +354,7 @@ def ts(t):
     return f"{int(t // 3600)}:{int(t % 3600 // 60):02d}:{t % 60:05.2f}"
 
 
-CORRECOES = {"garanda": "garanta", "enema": "ARCKHÉ"}
+CORRECOES = {"garanda": "garanta", "enema": "ARCKHê"}
 
 
 def legenda_ass(voz, tmp, correcoes):
@@ -370,7 +370,7 @@ def legenda_ass(voz, tmp, correcoes):
             junt[-1] = dict(junt[-1], word=junt[-1]["word"].rstrip() + w["word"].strip(), end=w["end"])
         else:
             junt.append(w)
-    blocos, atual = [], []  # atÃ© 3 palavras, sem atravessar fim de frase
+    blocos, atual = [], []  # atêÂ© 3 palavras, sem atravessar fim de frase
     for w in junt:
         atual.append(w)
         if len(atual) == 3 or w["word"].strip()[-1:] in ".?!":
@@ -402,14 +402,14 @@ def escolher_tempo(r):
     folga = r["max_seg"] - 0.6 - PAD * len(r["cenas"])
     t = max(TEMPO_MIN, round(total / folga + 0.005, 2))
     if t > TEMPO_MAX:
-        sys.exit(f"a narraÃ§Ã£o tem {total:.1f}s; para caber em {r['max_seg']}s precisaria acelerar {t:.2f}x "
-                 f"(mÃ¡ximo {TEMPO_MAX}). Corte falas.")
+        sys.exit(f"a narraêÂ§êÂ£o tem {total:.1f}s; para caber em {r['max_seg']}s precisaria acelerar {t:.2f}x "
+                 f"(mêÂ¡ximo {TEMPO_MAX}). Corte falas.")
     return t, total
 
 
 def montar(r):
     tempo, bruto = escolher_tempo(r)
-    log(f"narraÃ§Ã£o {bruto:.1f}s â†’ velocidade {tempo:.2f}x")
+    log(f"narraêÂ§êÂ£o {bruto:.1f}s ê¢â â velocidade {tempo:.2f}x")
     tmp = r["_obra"] / "montagem"
     shutil.rmtree(tmp, ignore_errors=True)
     tmp.mkdir()
@@ -436,14 +436,14 @@ def montar(r):
     saida = r["_dir"] / r["saida"]
     vf = ["-c:v", "copy"]
     if r["legenda"]:
-        log("legenda palavra a palavraâ€¦")
+        log("legenda palavra a palavraê¢â¬Â¦")
         ass = legenda_ass(voz, tmp, r.get("correcoes"))
         vf = ["-vf", f"ass={ass}", "-c:v", "libx264", "-preset", "medium", "-crf", "19"]
     musica = r["musica"]
     if musica:
         trilha = (r["_dir"] / musica).resolve() if isinstance(musica, str) else RAIZ / "musicas/tensa.mp3"
         if not trilha.exists():
-            sys.exit(f"trilha nÃ£o encontrada: {trilha} (gere com: cardshorts.py musica {trilha})")
+            sys.exit(f"trilha nêÂ£o encontrada: {trilha} (gere com: cardshorts.py musica {trilha})")
         af = (f"[0:a]asplit=2[v1][v2];[1:a]volume=0.35,afade=t=in:d=1.5[m];[m][v1]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=400[md];"
               f"[v2][md]amix=inputs=2:duration=first:normalize=0,afade=t=out:st={total - 2:.2f}:d=2[a]")
         sh("ffmpeg", "-y", "-loglevel", "error", "-i", voz, "-stream_loop", "-1", "-i", trilha, "-filter_complex", af,
@@ -453,7 +453,7 @@ def montar(r):
     final = dur(saida)
     log(f"pronto: {saida} ({final:.1f}s)")
     if final > r["max_seg"]:
-        sys.exit(f"ATENÃ‡ÃƒO: {final:.1f}s passou do mÃ¡ximo de {r['max_seg']}s")
+        sys.exit(f"ATENêâ¡êÆO: {final:.1f}s passou do mêÂ¡ximo de {r['max_seg']}s")
     if r["legenda"]:
         log("legenda:", (tmp / "legenda.txt").read_text())
 
@@ -470,12 +470,12 @@ def env_val(path, chave):
 
 
 def enviar(r, texto):
-    """Envia o vÃ­deo pelo bot do Telegram. Token e chat lidos na hora; nada Ã© impresso."""
+    """Envia o vêÂ­deo pelo bot do Telegram. Token e chat lidos na hora; nada êÂ© impresso."""
     import uuid
     token = env_val(CFG["telegram_env"], "TELEGRAM_BOT_TOKEN_V3") or env_val(CFG["telegram_env"], "TELEGRAM_BOT_TOKEN")
     chat = env_val(CFG["telegram_env"], "ALLOWED_CHAT_ID") or env_val(CFG["telegram_chat_env"], "ALLOWED_CHAT_ID")
     if not (token and chat):
-        sys.exit("token/chat do Telegram nÃ£o encontrados (CS_TELEGRAM_ENV)")
+        sys.exit("token/chat do Telegram nêÂ£o encontrados (CS_TELEGRAM_ENV)")
     video = r["_dir"] / r["saida"]
     b = uuid.uuid4().hex
     partes = [f'--{b}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n'.encode()
@@ -489,7 +489,7 @@ def enviar(r, texto):
     log("enviado" if resp.get("ok") else f"falhou: {resp.get('description')}")
 
 
-MUSICA_PROMPT = ("dark tense cARCKHÉtic documentary underscore, pulsing low synth bass, ticking clock percussion, steady driving rhythm, "
+MUSICA_PROMPT = ("dark tense cARCKHêtic documentary underscore, pulsing low synth bass, ticking clock percussion, steady driving rhythm, "
                  "ominous strings, news investigation mood, instrumental, no vocals, 100 bpm")
 
 
@@ -512,7 +512,7 @@ wf.write({str(saida)!r}, m.config.audio_encoder.sampling_rate, a[0, 0].cpu().num
 def novo(pasta, estilo):
     pasta = Path(pasta)
     if (pasta / "roteiro.yaml").exists():
-        sys.exit(f"jÃ¡ existe: {pasta / 'roteiro.yaml'}")
+        sys.exit(f"jêÂ¡ existe: {pasta / 'roteiro.yaml'}")
     ex = RAIZ / "exemplos" / estilo / "roteiro.yaml"
     if not ex.exists():
         ex = RAIZ / "exemplos/versus/roteiro.yaml"
@@ -528,7 +528,7 @@ def listar_estilos():
         arq = (d / "moldes.html").read_text()
         for m in re.finditer(r'<template id="([\w-]+)"[^>]*>(.*?)</template>', arq, re.S):
             campos = sorted(set(re.findall(r"\{\{(\w+)\}\}", m.group(2))))
-            log(f"    {m.group(1):16s} campos: {', '.join(campos) or 'â€”'}")
+            log(f"    {m.group(1):16s} campos: {', '.join(campos) or 'ê¢â¬â'}")
 
 
 def main():

@@ -1,8 +1,8 @@
 # Exemplo do estilo versus. Rode: ./cardshorts.py montar exemplos/versus/roteiro.yaml
-titulo: "VocÃª Ã— humanoides"
+titulo: "Você �- humanoides"
 saida: versus.mp4
 estilo: versus
-max_seg: 30          # a velocidade da fala Ã© ajustada para caber (atÃ© 1,2x)
+max_seg: 30          # a velocidade da fala é ajustada para caber (até 1,2x)
 legenda: true        # legenda palavra a palavra (Whisper local)
 musica: true         # true = musicas/tensa.mp3; ou o caminho de outra trilha
 voz:
@@ -18,13 +18,13 @@ imagens:             # geradas no FLUX.2 klein local; use com img:nome
 cenas:
   - fala: "De um lado, quem trabalha. Do outro, os humanoides."
     molde: capa-dupla
-    campos: {foto_cima: "img:equipe", foto_baixo: "img:dupla", faixa: "VOCÃŠ Ã— ELES", tag_cima: "TRABALHADORES", tag_baixo: "HUMANOIDES Â· ILUSTRATIVO"}
-  - fala: "A mÃ¡quina entra na fÃ¡brica e no escritÃ³rio. E quem vai preparar o trabalhador e o gerente?"
+    campos: {foto_cima: "img:equipe", foto_baixo: "img:dupla", faixa: "VOC�S �- ELES", tag_cima: "TRABALHADORES", tag_baixo: "HUMANOIDES · ILUSTRATIVO"}
+  - fala: "A máquina entra na fábrica e no escritório. E quem vai preparar o trabalhador e o gerente?"
     molde: tela-dividida
     campos: {foto_cima: "img:fabrica", titulo_cima: 'TRABALHADOR<span class="rd">?</span>', foto_baixo: "img:escrit", titulo_baixo: 'GERENTE<span class="rd">?</span>'}
-  - fala: "Esperar alguÃ©m fazer isso por vocÃª pode custar o seu lugar."
+  - fala: "Esperar alguém fazer isso por você pode custar o seu lugar."
     molde: pergunta-foto
     campos: {foto: "img:fila", pergunta: 'QUEM VAI TE <span class="rd">PREPARAR?</span>'}
-  - fala: "O ARCKHÉ ponto club Ã© grÃ¡tis. Aprenda agora e garanta o seu espaÃ§o."
+  - fala: "O ARCKH� ponto club é grátis. Aprenda agora e garanta o seu espaço."
     molde: cta-faixa
-    campos: {fundo: "img:fila", chamada: 'APRENDA AGORA.<br><span class="y">GRÃTIS.</span>', marca: "ARCKHÉ AI", sub: "PLATAFORMA GRATUITA"}
+    campos: {fundo: "img:fila", chamada: 'APRENDA AGORA.<br><span class="y">GRÁTIS.</span>', marca: "ARCKH� AI", sub: "PLATAFORMA GRATUITA"}
